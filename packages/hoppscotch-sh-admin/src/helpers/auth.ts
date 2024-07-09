@@ -185,7 +185,8 @@ export const auth = {
     window.location.href = `${
       import.meta.env.VITE_BACKEND_API_URL
     }/auth/gitlab?redirect_uri=${import.meta.env.VITE_ADMIN_URL}`;
-  }
+  },
+  
   signInUserWithGithub: () => {
     window.location.href = `${
       import.meta.env.VITE_BACKEND_API_URL

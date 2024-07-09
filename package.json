@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "node preinstall.js",
     "prepare": "husky install",
     "dev": "pnpm -r do-dev",
     "gen-gql": "cross-env GQL_SCHEMA_EMIT_LOCATION='../../../gql-gen/backend-schema.gql' pnpm -r generate-gql-sdl",

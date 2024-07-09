@@ -49,11 +49,12 @@ async function bootstrap() {
       credentials: true,
     });
   }
+  console.log(configService.get('WHITELISTED_ORIGINS').split(','));
   app.enableVersioning({
     type: VersioningType.URI,
   });
   app.use(cookieParser());
-  await app.listen(configService.get('PORT') || 3170);
+  await app.listen(configService.get('PORT') || 3170, '0.0.0.0',);
 
   // Graceful shutdown
   process.on('SIGTERM', async () => {

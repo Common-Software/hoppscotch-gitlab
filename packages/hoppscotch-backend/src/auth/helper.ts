@@ -53,13 +53,13 @@ export const authCookieHandler = (
 
   res.cookie(AuthTokenType.ACCESS_TOKEN, authTokens.access_token, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: 'lax',
     maxAge: accessTokenValidity,
   });
   res.cookie(AuthTokenType.REFRESH_TOKEN, authTokens.refresh_token, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: 'lax',
     maxAge: refreshTokenValidity,
   });
@@ -72,6 +72,7 @@ export const authCookieHandler = (
   const whitelistedOrigins = configService
     .get('WHITELISTED_ORIGINS')
     .split(',');
+    // console.log('whitelistedOrigins', whitelistedOrigins, redirectUrl, res);
   if (!whitelistedOrigins.includes(redirectUrl))
     // if it is not redirect by default to REDIRECT_URL
     redirectUrl = configService.get('REDIRECT_URL');

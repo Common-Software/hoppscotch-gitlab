@@ -166,8 +166,11 @@ export class AuthController {
    @Get('gitlab/callback')
    @SkipThrottle()
    @UseGuards(GitlabSSOGuard)
+   @UseInterceptors(UserLastLoginInterceptor)
    async gitlabAuthRedirect(@Request() req, @Res() res) {
+    console.log(req);
      const authTokens = await this.authService.generateAuthTokens(req.user.uid);
+     console.log(authTokens);
      if (E.isLeft(authTokens)) throwHTTPErr(authTokens.left);
      authCookieHandler(
        res,

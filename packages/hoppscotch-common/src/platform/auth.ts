@@ -44,6 +44,11 @@ export type GithubSignInResult =
   | { type: "account-exists-with-different-cred"; link: () => Promise<void> } // We authenticated correctly, but the provider didn't match, so we give the user the opportunity to link to continue completing auth
   | { type: "error"; err: unknown } // Auth failed completely and we don't know why
 
+export type GitlabSignInResult =
+  | { type: "success"; user: HoppUser } // The authentication was a success
+  | { type: "account-exists-with-different-cred"; link: () => Promise<void> } // We authenticated correctly, but the provider didn't match, so we give the user the opportunity to link to continue completing auth
+  | { type: "error"; err: unknown } // Auth failed completely and we don't know why
+
 export type LoginItemDef = {
   id: string
   icon: Component
@@ -216,6 +221,12 @@ export type AuthPlatformDef = {
    * @returns A promise that resolves with the auth status, giving an opportunity to link if or handle failures
    */
   signInUserWithGithub: () => Promise<GithubSignInResult> | Promise<undefined>
+
+  /**
+   * Signs user in with Gitlab.
+   * @returns A promise that resolves with the auth status, giving an opportunity to link if or handle failures
+   */
+  signInUserWithGitlab: () => Promise<GitlabSignInResult> | Promise<undefined>
   /**
    * Signs user in with Microsoft.
    * @returns A promise that resolves with the user info when auth is completed

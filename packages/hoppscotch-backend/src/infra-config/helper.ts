@@ -26,6 +26,13 @@ const AuthProviderConfigurations = {
     InfraConfigEnum.GITHUB_CALLBACK_URL,
     InfraConfigEnum.GITHUB_SCOPE,
   ],
+  [AuthProvider.GITLAB]: [
+    InfraConfigEnum.GITLAB_CLIENT_ID,
+    InfraConfigEnum.GITLAB_CLIENT_SECRET,
+    InfraConfigEnum.GITLAB_CALLBACK_URL,
+    InfraConfigEnum.GITLAB_SCOPE,
+    InfraConfigEnum.GITLAB_SITE,
+  ],
   [AuthProvider.MICROSOFT]: [
     InfraConfigEnum.MICROSOFT_CLIENT_ID,
     InfraConfigEnum.MICROSOFT_CLIENT_SECRET,
@@ -153,6 +160,26 @@ export async function getDefaultInfraConfigs(): Promise<
     {
       name: InfraConfigEnum.GITHUB_SCOPE,
       value: process.env.GITHUB_SCOPE,
+    },
+    {
+      name: InfraConfigEnum.GITLAB_CLIENT_ID,
+      value: process.env.GITLAB_CLIENT_ID,
+    },
+    {
+      name: InfraConfigEnum.GITLAB_CLIENT_SECRET,
+      value: process.env.GITLAB_CLIENT_SECRET,
+    },
+    {
+      name: InfraConfigEnum.GITLAB_CALLBACK_URL,
+      value: process.env.GITLAB_CALLBACK_URL,
+    },
+    {
+      name: InfraConfigEnum.GITLAB_SCOPE,
+      value: process.env.GITLAB_SCOPE,
+    },
+    {
+      name: InfraConfigEnum.GITLAB_SITE,
+      value: process.env.GITLAB_SITE,
     },
     {
       name: InfraConfigEnum.MICROSOFT_CLIENT_ID,

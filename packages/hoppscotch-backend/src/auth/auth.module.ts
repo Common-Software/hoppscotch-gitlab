@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RTJwtStrategy } from './strategies/rt-jwt.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { GitlabStrategy } from './strategies/gitlab.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { MicrosoftStrategy } from './strategies/microsoft.strategy';
 import { AuthProvider, authProviderCheck } from './helper';
@@ -54,6 +55,9 @@ export class AuthModule {
         : []),
       ...(authProviderCheck(AuthProvider.MICROSOFT, allowedAuthProviders)
         ? [MicrosoftStrategy]
+        : []),
+        ...(authProviderCheck(AuthProvider.GITLAB, allowedAuthProviders)
+        ? [GitlabStrategy]
         : []),
     ];
 

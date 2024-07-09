@@ -23,6 +23,14 @@
         v-if="mode === 'sign-in' && allowedAuthProviders"
         class="flex flex-col space-y-2"
       >
+      <HoppSmartItem
+          v-if="allowedAuthProviders.includes('GITLAB')"
+          :loading="signingInWithGitlab"
+          :icon="IconGitlab"
+          :label="t('state.continue_gitlab')"
+          class="!items-center"
+          @click="signInWithGitlab"
+        />
         <HoppSmartItem
           v-if="allowedAuthProviders.includes('GITHUB')"
           :loading="signingInWithGitHub"
@@ -158,6 +166,7 @@ import { auth } from '~/helpers/auth';
 import { setLocalConfig } from '~/helpers/localpersistence';
 import IconEmail from '~icons/auth/email';
 import IconGithub from '~icons/auth/github';
+import IconGitlab from '~icons/auth/gitlab';
 import IconGoogle from '~icons/auth/google';
 import IconMicrosoft from '~icons/auth/microsoft';
 import IconArrowLeft from '~icons/lucide/arrow-left';
@@ -176,6 +185,7 @@ const fetching = ref(false);
 const error = ref(false);
 const signingInWithGoogle = ref(false);
 const signingInWithGitHub = ref(false);
+const signingInWithGitlab = ref(false);
 const signingInWithMicrosoft = ref(false);
 const signingInWithEmail = ref(false);
 const mode = ref('sign-in');
@@ -216,6 +226,22 @@ const signInWithGithub = () => {
 
   signingInWithGitHub.value = false;
 };
+const signInWithGitlab = () => {
+  signingInWithGitlab.value = true;
+
+  try {
+    auth.signInUserWithGitlab();
+  } catch (e) {
+    console.error(e);
+    /*
+    A auth/account-exists-with-different-credential Firebase error wont happen between Google and any other providers
+    Seems Google account overwrites accounts of other providers https://github.com/firebase/firebase-android-sdk/issues/25
+    */
+    toast.error(`${t('state.github_signin_failure')}`);
+  }
+
+  signingInWithGitlab.value = false;
+}
 
 const signInWithMicrosoft = () => {
   signingInWithMicrosoft.value = true;

@@ -103,6 +103,7 @@
     "all_sign_in_options": "所有登录选项",
     "continue_with_email": "使用电子邮箱登录",
     "continue_with_github": "使用 GitHub 登录",
+    "continue_with_gitlab": "使用 GitLab 登录",
     "continue_with_google": "使用 Google 登录",
     "continue_with_microsoft": "使用 Microsoft 登录",
     "email": "电子邮箱地址",

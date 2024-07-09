@@ -29,6 +29,7 @@ import { AUTH_PROVIDER_NOT_SPECIFIED } from 'src/errors';
 import { ConfigService } from '@nestjs/config';
 import { throwHTTPErr } from 'src/utils';
 import { UserLastLoginInterceptor } from 'src/interceptors/user-last-login.interceptor';
+import { GitlabSSOGuard } from './guards/gitlab-sso.guard';
 
 @UseGuards(ThrottlerBehindProxyGuard)
 @Controller({ path: 'auth', version: '1' })
@@ -149,6 +150,33 @@ export class AuthController {
       req.authInfo.state.redirect_uri,
     );
   }
+
+
+  /**
+   ** Route to initiate SSO auth via Gitlab
+   */
+   @Get('gitlab')
+   @UseGuards(GitlabSSOGuard)
+   async gitlabAuth(@Request() req) {}
+
+   /**
+    ** Callback URL for Gitlab SSO
+    * @see https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow#how-it-works
+    */
+   @Get('gitlab/callback')
+   @SkipThrottle()
+   @UseGuards(GitlabSSOGuard)
+   async gitlabAuthRedirect(@Request() req, @Res() res) {
+     const authTokens = await this.authService.generateAuthTokens(req.user.uid);
+     if (E.isLeft(authTokens)) throwHTTPErr(authTokens.left);
+     authCookieHandler(
+       res,
+       authTokens.right,
+       true,
+       req.authInfo.state.redirect_uri,
+     );
+   }
+
 
   /**
    ** Route to initiate SSO auth via Microsoft

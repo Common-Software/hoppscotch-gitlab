@@ -44,6 +44,12 @@ export type GithubSignInResult =
   | { type: 'account-exists-with-different-cred'; link: () => Promise<void> } // We authenticated correctly, but the provider didn't match, so we give the user the opportunity to link to continue completing auth
   | { type: 'error'; err: unknown }; // Auth failed completely and we don't know why
 
+  export type GitlabSignInResult =
+  | { type: 'success'; user: HoppUser } // The authentication was a success
+  | { type: 'account-exists-with-different-cred'; link: () => Promise<void> } // We authenticated correctly, but the provider didn't match, so we give the user the opportunity to link to continue completing auth
+  | { type: 'error'; err: unknown }; // Auth failed completely and we don't know why
+
+
 export const authEvents$ = new Subject<
   AuthEvent | { event: 'token_refresh' }
 >();
@@ -175,6 +181,11 @@ export const auth = {
     }/auth/google?redirect_uri=${import.meta.env.VITE_ADMIN_URL}`;
   },
 
+  signInUserWithGitlab: () => {
+    window.location.href = `${
+      import.meta.env.VITE_BACKEND_API_URL
+    }/auth/gitlab?redirect_uri=${import.meta.env.VITE_ADMIN_URL}`;
+  }
   signInUserWithGithub: () => {
     window.location.href = `${
       import.meta.env.VITE_BACKEND_API_URL
